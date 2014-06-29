@@ -1,0 +1,123 @@
+800B090C: password length
+    - write break @ vm instruction 0x80151958
+    - actually write to local variable 0x35!!!
+
+vm local v_13 == bitmask of password buttons, for < 13
+vm local v_14 == bitmask of password buttons, for >= 13
+vm local v_16 == flag, if set then the password is incorrect!
+vm local v_35 == password length / index of next button
+vm local v_3a == current button press during password input?
+vm local v_3c == is password one line (0x1) or three (0x2)
+    PC=0x80151928 insn=0x1104de3c    DECODED: sw         0x2,     v_3c
+
+800B0928: some super password related flag.
+
+800b07d8: VM structure
+
+loadobj    SKIP,    28160
+    => This is some rendering check? Black screen if the above variable is set to non-zero.
+
+VM instructions:
+
+0x00 add
+0x01 sub
+0x02 mul
+0x03 div
+0x04 eq (op1 xor op2 ltu 1)
+0x05 land
+0x06 lor
+0x07 band
+0x08 bor
+0x09 slt recheck!
+0x0a sgt recheck!
+0x0b sle recheck!
+0x0c sge recheck!
+0x0d mod
+0x0e xor
+0x0f bit test, (op1 & op2) != 0
+0x10 some sort of encryption / decryption or rng?
+0x11 sw / memory write. has null pointer check.
+0x12 op1 != 0 but store result directly to op2
+0x15 shift left (or right if negative shift count)
+0x16 load one or two words.. 
+0x17 negate op1 but store result to op2
+0x18 dynamic load from constant pool, custom address mode
+0x1a upcall to C code, custom address mode
+0x1c custom address mode, some switch-case code
+0x1f read some global array, indexed with top 24 bits only.
+        => is this a TAGGED architecture in some situations???
+0x20 store to the global array, again only 24 bits
+0x24 custom trinary address mode. op1 always local, used as pointer to some 16-bit array. op2 = index to the array. op3 = value to store?
+0x26 load effective address?
+0x27 load something from constant pool. TAGGED
+0x82 some sort of conditional branch, can exit AND nest.
+    op2 = relative jump amount in words.
+
+0x8a custom address mode. seems to move the stack pointer by a variable amount. Maybe does some GFX stuff?
+     Game is playable, but a LOT is broken if the function call is made to return immediately...
+     Some sort of memcpy operation?
+0x90 unary
+
+Complex addressing:
+
+If top bits are 0b00,    then it's a value from constant pool 0x20?
+If top bits are 0b01,    then it's a value from constant pool 0x24?
+If top bits are 0b100,   then it's an 9-bit immediate left shifted by 8?
+If top bits are 0b1010,  then it's an 8-bit immediate left shifted by 4?
+If top bits are 0b10110, then index from beginning of stack (at VM+0xE4)
+
+0xbe0 = null pointer / ignore value. It's used in ins1F:s first op as placeholder as it's unary.
+
+800b07d8: VM structure
+Constant pools:
+    Dereference VM+0x20 (= 8014cbc8) or VM+0x24 (= 8014cbc8)
+    Then dereference that +0x18 (= 80152b30)
+    Now you have array of longs.
+
+INS82 encodings:
+
+    0x82 | 2 | 2 | 6 | 4 | 10 |
+    opc  | a | b | c | d | e  |
+
+b is condition code, c is the operand that's being comperand
+    0 => branch always
+    1 => branch if c
+    2 => branch if !c
+    3 => undefined behaviour
+
+If c == 0x1f, then pop from stack, else c is a local variable index.
+
+d == number of words to pop from stack, ONLY IF NORMAL BRANCH AND CONDITION SUCCEEDED!
+
+a == kind of branch.
+    0 => normal branch
+    1 => VM call or maybe exit. d and e form a single operand
+    2 => always VM exit?
+    3 => do nothing (probably reserved)
+
+VM exits:
+    DECODED: ins82    1, 0, 0x25, 7
+    DECODED: ins82    2, 0, 0x25, 0
+
+    DECODED: ins83    0x012, 0x380
+    DECODED: ins83    0x012, 0x381
+    <...>. ins83 probably has a custom address mode
+
+    DECODED: ins84    0xc10, 0x800
+    DECODED: ins84    0xc10, g_74
+    DECODED: ins84    0xc10, g_75
+    DECODED: ins84    0xc10, TOS
+    DECODED: ins84    v_1c0, 0x800
+    DECODED: ins84    v_1f0, 0x800
+    DECODED: ins84    v_1f0, v_2b
+
+Recursive VM enters:
+    DECODED: ins82    1, 0, 0x25, 6
+    DECODED: ins82    1, 0, 0x25, 44
+    DECODED: ins90    0x000, 0x80e
+    DECODED: ins90    0x000, 0x823
+    DECODED: ins82    1, 0, 0x25, 45
+    DECODED: ins82    1, 1, 0x16, 46
+
+Conditional branches:
+    DECODED: ins82    0, 2, 0x1f, 5

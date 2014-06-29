@@ -1,0 +1,75 @@
+TEXT:80020AC0 ins0:                                    # DATA XREF: TEXT:vmJumpTableo
+TEXT:80020AC0                 srl     $v1, $s1, 12
+TEXT:80020AC4                 andi    $a0, $v1, 0xFFF
+TEXT:80020AC8                 andi    $v0, $v1, 0xE00
+TEXT:80020ACC                 li      $t1, 0xE00
+TEXT:80020AD0                 bne     $v0, $t1, loc_80020B08
+TEXT:80020AD4                 move    $a1, $a0
+TEXT:80020AD8                 bne     $a0, $fp, loc_80020AF8
+TEXT:80020ADC                 andi    $v0, $v1, 0x1FF
+TEXT:80020AE0                 lw      $v0, 0xDC($s2)
+TEXT:80020AE4                 nop
+TEXT:80020AE8                 addiu   $v0, -4
+TEXT:80020AEC                 move    $s0, $v0
+TEXT:80020AF0                 j       loc_80020B14
+TEXT:80020AF4                 sw      $s0, 0xDC($s2)
+TEXT:80020AF8  # ---------------------------------------------------------------------------
+TEXT:80020AF8
+TEXT:80020AF8 loc_80020AF8:                            # CODE XREF: sub_800201DC+8FCj
+TEXT:80020AF8                 sll     $v0, 2
+TEXT:80020AFC                 addiu   $v0, 0x60
+TEXT:80020B00                 j       loc_80020B14
+TEXT:80020B04                 addu    $s0, $s2, $v0
+TEXT:80020B08  # ---------------------------------------------------------------------------
+TEXT:80020B08
+TEXT:80020B08 loc_80020B08:                            # CODE XREF: sub_800201DC+8F4j
+TEXT:80020B08                 jal     sub_8001FB34
+TEXT:80020B0C                 move    $a0, $s2
+TEXT:80020B10                 move    $s0, $v0
+TEXT:80020B14
+TEXT:80020B14 loc_80020B14:                            # CODE XREF: sub_800201DC+914j
+TEXT:80020B14                                          # sub_800201DC+924j
+TEXT:80020B14                 andi    $v1, $s1, 0xFFF
+TEXT:80020B18                 andi    $v0, $s1, 0xE00
+TEXT:80020B1C                 li      $t1, 0xE00
+TEXT:80020B20                 bne     $v0, $t1, loc_80020B58
+TEXT:80020B24                 move    $a1, $v1
+TEXT:80020B28                 bne     $v1, $fp, loc_80020B48
+TEXT:80020B2C                 andi    $v0, $s1, 0x1FF
+TEXT:80020B30                 lw      $v0, 0xDC($s2)
+TEXT:80020B34                 nop
+TEXT:80020B38                 addiu   $v0, -4
+TEXT:80020B3C                 move    $v1, $v0
+TEXT:80020B40                 j       loc_80020B64
+TEXT:80020B44                 sw      $v1, 0xDC($s2)
+TEXT:80020B48  # ---------------------------------------------------------------------------
+TEXT:80020B48
+TEXT:80020B48 loc_80020B48:                            # CODE XREF: sub_800201DC+94Cj
+TEXT:80020B48                 sll     $v0, 2
+TEXT:80020B4C                 addiu   $v0, 0x60
+TEXT:80020B50                 j       loc_80020B64
+TEXT:80020B54                 addu    $v1, $s2, $v0
+TEXT:80020B58  # ---------------------------------------------------------------------------
+TEXT:80020B58
+TEXT:80020B58 loc_80020B58:                            # CODE XREF: sub_800201DC+944j
+TEXT:80020B58                 jal     sub_8001FB34
+TEXT:80020B5C                 move    $a0, $s2
+TEXT:80020B60                 move    $v1, $v0
+TEXT:80020B64
+TEXT:80020B64 loc_80020B64:                            # CODE XREF: sub_800201DC+964j
+TEXT:80020B64                                          # sub_800201DC+974j
+TEXT:80020B64                 lw      $a0, 0xDC($s2)
+TEXT:80020B68                 nop
+TEXT:80020B6C                 addiu   $v0, $a0, 4
+TEXT:80020B70                 sw      $v0, 0xDC($s2)
+TEXT:80020B74                 lw      $v0, 0($s0)
+TEXT:80020B78                 lw      $v1, 0($v1)
+TEXT:80020B7C
+TEXT:80020B7C loc_80020B7C:                            # CODE XREF: sub_800201DC+3A0j
+TEXT:80020B7C                 nop
+TEXT:80020B80                 addu    $v0, $v1
+TEXT:80020B84
+TEXT:80020B84 loc_80020B84:                            # CODE XREF: sub_800201DC+A70j
+TEXT:80020B84                                          # sub_800201DC+F3C0j ...
+TEXT:80020B84                 j       interpreterLoop?
+TEXT:80020B88                 sw      $v0, 0($a0)

@@ -1,0 +1,45 @@
+diff --git a/libpcsxcore/psxinterpreter.c b/libpcsxcore/psxinterpreter.c
+index 1f4b46c..6ef790a 100644
+--- a/libpcsxcore/psxinterpreter.c
++++ b/libpcsxcore/psxinterpreter.c
+@@ -335,7 +335,39 @@ __inline void doBranch(u32 tar) {
+ * Format:  OP rt, rs, immediate                          *
+ *********************************************************/
+ void psxADDI() 	{ if (!_Rt_) return; _rRt_ = _u32(_rRs_) + _Imm_ ; }		// Rt = Rs + Im 	(Exception on Integer Overflow)
+-void psxADDIU() { if (!_Rt_) return; _rRt_ = _u32(_rRs_) + _Imm_ ; }		// Rt = Rs + Im
++void psxADDIU() {
++    static int hackInsns[60];
++    static int hackNests;
++    unsigned p = psxRegs.pc - 4;
++    if (p == 0x800201DC) {
++        ++hackNests;
++        printf("HACK VmEnter: RA=0x%08x Nested=%d\n", psxRegs.GPR.n.ra, hackNests);
++        hackInsns[hackNests] = 0;
++    } else if (p == 0x80020220) {
++        uint32_t vmStackStart = psxMemRead32(psxRegs.GPR.n.s2 + 0xE4);
++        uint32_t vmSp = psxMemRead32(psxRegs.GPR.n.s2 + 0xDC);
++        uint32_t vmStackElems = (vmSp - vmStackStart) / 4;
++        uint32_t i;
++
++        printf("HACK VmInstruction: SP=0x%08x PC=0x%08x insn=0x%08x. Stack(%d):",
++                vmSp,
++                psxRegs.GPR.n.v0,
++                psxMemRead32(psxRegs.GPR.n.v0),
++                vmStackElems
++        );
++        for (i = 0; i < vmStackElems; i++)
++            printf(" 0x%08x", psxMemRead32(vmStackStart + i * 4));
++        printf("\n");
++        hackInsns[hackNests]++;
++    } else if (p == 0x80024034) {
++        printf("HACK VmExit: RA=0x%08x Nested=%d Insns=%d\n", psxRegs.GPR.n.ra,
++                hackNests, hackInsns[hackNests]);
++        --hackNests;
++    }
++
++    if (!_Rt_) return;
++    _rRt_ = _u32(_rRs_) + _Imm_ ;
++}		// Rt = Rs + Im
+ void psxANDI() 	{ if (!_Rt_) return; _rRt_ = _u32(_rRs_) & _ImmU_; }		// Rt = Rs And Im
+ void psxORI() 	{ if (!_Rt_) return; _rRt_ = _u32(_rRs_) | _ImmU_; }		// Rt = Rs Or  Im
+ void psxXORI() 	{ if (!_Rt_) return; _rRt_ = _u32(_rRs_) ^ _ImmU_; }		// Rt = Rs Xor Im

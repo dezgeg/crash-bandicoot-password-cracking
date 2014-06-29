@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Crash Bandicoot (NTSC-U) password generator</title>
+        <script type="text/javascript" src="pwgen.js"></script>
+        <script type="text/javascript">
+            function doit() {
+                for (var i = 0; i < 26; i++) {
+                    document.getElementById('gems').innerHTML +=
+                        'Gem ' + i + ': <input type="checkbox" id="gem-' + i + '" /><br/>';
+                }
+            }
+            function selectGems(selected) {
+                var inputs = document.querySelectorAll('#gems input');
+                for (var i = 0; i < inputs.length; i++)
+                    inputs[i].checked = selected;
+            }
+            function generate() {
+                console.log(arguments);
+                var level = parseInt(document.getElementById('level').value);
+                if (isNaN(level) || level < 1 || level > 31) {
+                    alert('Level must be between 1 and 31');
+                    return;
+                }
+                var g_05 = level;
+                var g_06 = 0;
+                var g_07 = 0;
+                var g_08 = 0;
+                for (var i = 0; i < 2; i++) {
+                    if (!document.getElementById('key-' + i).checked)
+                        continue;
+                    g_05 |= 1 << (i + 5);
+                }
+                for (var i = 0; i < 26; i++) {
+                    if (!document.getElementById('gem-' + i).checked)
+                        continue;
+                    if (i < 2)
+                        g_05 |= 1 << (i + 7);
+                    else if (i < 11)
+                        g_06 |= 1 << (i - 2);
+                    else if (i < 20)
+                        g_07 |= 1 << (i - 11);
+                    else
+                        g_08 |= 1 << (i - 20);
+                }
+                var s = stringify(make(g_05, g_06, g_07, g_08));
+                document.getElementById('result').innerText = s;
+
+                return false;
+            }
+        </script>
+    </head>
+    <body onload="doit()">
+        <form onsubmit="generate(); return false">
+            Level: <input type="text" id="level" value="1"><br/>
+            <div id="keys">
+                Key 0: <input type="checkbox" id="key-0" /><br/>
+                Key 1: <input type="checkbox" id="key-1" /><br/>
+            </div>
+            <div id="gems">
+            </div>
+            <button>Generate</button>
+        </form>
+        <button onclick="selectGems(true)">Select all gems</button>
+        <button onclick="selectGems(false)">Select no gems</button>
+        <pre id="result"></pre>
+    </body>
+</html>

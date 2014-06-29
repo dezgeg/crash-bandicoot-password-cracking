@@ -1,0 +1,72 @@
+TEXT:80020D04 ins2:                                    # DATA XREF: TEXT:80010520o
+TEXT:80020D04                 srl     $v1, $s1, 12
+TEXT:80020D08                 andi    $a0, $v1, 0xFFF
+TEXT:80020D0C                 andi    $v0, $v1, 0xE00
+TEXT:80020D10                 li      $t1, 0xE00
+TEXT:80020D14                 bne     $v0, $t1, loc_80020D4C
+TEXT:80020D18                 move    $a1, $a0
+TEXT:80020D1C                 bne     $a0, $fp, loc_80020D3C
+TEXT:80020D20                 andi    $v0, $v1, 0x1FF
+TEXT:80020D24                 lw      $v0, 0xDC($s2)
+TEXT:80020D28                 nop
+TEXT:80020D2C                 addiu   $v0, -4
+TEXT:80020D30                 move    $s0, $v0
+TEXT:80020D34                 j       loc_80020D58
+TEXT:80020D38                 sw      $s0, 0xDC($s2)
+TEXT:80020D3C  # ---------------------------------------------------------------------------
+TEXT:80020D3C
+TEXT:80020D3C loc_80020D3C:                            # CODE XREF: sub_800201DC+B40j
+TEXT:80020D3C                 sll     $v0, 2
+TEXT:80020D40                 addiu   $v0, 0x60
+TEXT:80020D44                 j       loc_80020D58
+TEXT:80020D48                 addu    $s0, $s2, $v0
+TEXT:80020D4C  # ---------------------------------------------------------------------------
+TEXT:80020D4C
+TEXT:80020D4C loc_80020D4C:                            # CODE XREF: sub_800201DC+B38j
+TEXT:80020D4C                 jal     sub_8001FB34
+TEXT:80020D50                 move    $a0, $s2
+TEXT:80020D54                 move    $s0, $v0
+TEXT:80020D58
+TEXT:80020D58 loc_80020D58:                            # CODE XREF: sub_800201DC+B58j
+TEXT:80020D58                                          # sub_800201DC+B68j
+TEXT:80020D58                 andi    $v1, $s1, 0xFFF
+TEXT:80020D5C                 andi    $v0, $s1, 0xE00
+TEXT:80020D60                 li      $t1, 0xE00
+TEXT:80020D64                 bne     $v0, $t1, loc_80020D9C
+TEXT:80020D68                 move    $a1, $v1
+TEXT:80020D6C                 bne     $v1, $fp, loc_80020D8C
+TEXT:80020D70                 andi    $v0, $s1, 0x1FF
+TEXT:80020D74                 lw      $v0, 0xDC($s2)
+TEXT:80020D78                 nop
+TEXT:80020D7C                 addiu   $v0, -4
+TEXT:80020D80                 move    $a1, $v0
+TEXT:80020D84                 j       loc_80020DA8
+TEXT:80020D88                 sw      $a1, 0xDC($s2)
+TEXT:80020D8C  # ---------------------------------------------------------------------------
+TEXT:80020D8C
+TEXT:80020D8C loc_80020D8C:                            # CODE XREF: sub_800201DC+B90j
+TEXT:80020D8C                 sll     $v0, 2
+TEXT:80020D90                 addiu   $v0, 0x60
+TEXT:80020D94                 j       loc_80020DA8
+TEXT:80020D98                 addu    $a1, $s2, $v0
+TEXT:80020D9C  # ---------------------------------------------------------------------------
+TEXT:80020D9C
+TEXT:80020D9C loc_80020D9C:                            # CODE XREF: sub_800201DC+B88j
+TEXT:80020D9C                 jal     sub_8001FB34
+TEXT:80020DA0                 move    $a0, $s2
+TEXT:80020DA4                 move    $a1, $v0
+TEXT:80020DA8
+TEXT:80020DA8 loc_80020DA8:                            # CODE XREF: sub_800201DC+BA8j
+TEXT:80020DA8                                          # sub_800201DC+BB8j
+TEXT:80020DA8                 lw      $a0, 0xDC($s2)
+TEXT:80020DAC                 nop
+TEXT:80020DB0                 addiu   $v0, $a0, 4
+TEXT:80020DB4                 sw      $v0, 0xDC($s2)
+TEXT:80020DB8                 lw      $v1, 0($s0)
+TEXT:80020DBC                 lw      $v0, 0($a1)
+TEXT:80020DC0                 nop
+TEXT:80020DC4                 mult    $v1, $v0
+TEXT:80020DC8                 mflo    $v0
+TEXT:80020DCC                 j       interpreterLoop?
+TEXT:80020DD0                 sw      $v0, 0($a0)
+

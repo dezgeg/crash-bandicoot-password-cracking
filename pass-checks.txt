@@ -1,0 +1,447 @@
+Length above 13? Use different variable than v_13 then.
+HACK VmInstruction: SP=0x800b0984 PC=0x801518bc insn=0x0900de35    DECODED: slt?       0xd,     v_35
+HACK VmInstruction: SP=0x800b0988 PC=0x801518c0 insn=0x8227c009    DECODED: br.ez      TOS,     0, 9
+
+If length below 13...
+    Mask off existing button press from v_13, if any.
+    HACK VmInstruction: SP=0x800b0984 PC=0x801518c4 insn=0x0204de35    DECODED: mul        0x2,     v_35
+    HACK VmInstruction: SP=0x800b0988 PC=0x801518c8 insn=0x15e1f050    DECODED: sll        TOS,     0x3
+    HACK VmInstruction: SP=0x800b0988 PC=0x801518cc insn=0x17e1fe1f    DECODED: setneg     TOS,     TOS
+    HACK VmInstruction: SP=0x800b0988 PC=0x801518d0 insn=0x07e1fe13    DECODED: band       TOS,     v_13
+
+    Or in the current pressed button to v_13.
+    HACK VmInstruction: SP=0x800b0988 PC=0x801518d4 insn=0x0204de35    DECODED: mul        0x2,     v_35
+    HACK VmInstruction: SP=0x800b098c PC=0x801518d8 insn=0x15e1fe3a    DECODED: sll        TOS,     v_3a
+    HACK VmInstruction: SP=0x800b098c PC=0x801518dc insn=0x08e1fe1f    DECODED: bor        TOS,     TOS
+    HACK VmInstruction: SP=0x800b0988 PC=0x801518e0 insn=0x11e1fe13    DECODED: sw         TOS,     v_13
+
+    HACK VmInstruction: SP=0x800b0984 PC=0x801518e4 insn=0x8209400a    DECODED: br.al      v_25,    0, 10
+Else, length >= 13
+    Mask off existing button press from v_14, if any.
+    HACK VmInstruction: SP=0x800b0984 PC=0x801518e8 insn=0x0100de35    DECODED: sub        0xd,     v_35
+    HACK VmInstruction: SP=0x800b0988 PC=0x801518ec insn=0x0204de1f    DECODED: mul        0x2,     TOS
+    HACK VmInstruction: SP=0x800b0988 PC=0x801518f0 insn=0x15e1f050    DECODED: sll        TOS,     0x3
+    HACK VmInstruction: SP=0x800b0988 PC=0x801518f4 insn=0x17e1fe1f    DECODED: setneg     TOS,     TOS
+    HACK VmInstruction: SP=0x800b0988 PC=0x801518f8 insn=0x07e1fe14    DECODED: band       TOS,     v_14
+
+    Or in the current pressed button to v_14.
+    HACK VmInstruction: SP=0x800b0988 PC=0x801518fc insn=0x0100de35    DECODED: sub        0xd,     v_35
+    HACK VmInstruction: SP=0x800b098c PC=0x80151900 insn=0x0204de1f    DECODED: mul        0x2,     TOS
+    HACK VmInstruction: SP=0x800b098c PC=0x80151904 insn=0x15e1fe3a    DECODED: sll        TOS,     v_3a
+    HACK VmInstruction: SP=0x800b098c PC=0x80151908 insn=0x08e1fe1f    DECODED: bor        TOS,     TOS
+    HACK VmInstruction: SP=0x800b0988 PC=0x8015190c insn=0x11e1fe14    DECODED: sw         TOS,     v_14
+
+If entered the second button, and both are triangles, then branch.
+HACK VmInstruction: SP=0x800b0984 PC=0x80151910 insn=0x04049e35    DECODED: eq         0x1,     v_35
+HACK VmInstruction: SP=0x800b0988 PC=0x80151914 insn=0x0700fe13    DECODED: band       0xf,     v_13
+HACK VmInstruction: SP=0x800b098c PC=0x80151918 insn=0x0400fe1f    DECODED: eq         0xf,     TOS
+HACK VmInstruction: SP=0x800b098c PC=0x8015191c insn=0x05e1fe1f    DECODED: land       TOS,     TOS
+HACK VmInstruction: SP=0x800b0988 PC=0x80151920 insn=0x8227c006    DECODED: br.ez      TOS,     0, 6
+
+    Set a flag meaning this is a super password?
+    HACK VmInstruction: SP=0x800b0984 PC=0x80151924 insn=0x11801e12    DECODED: sw         256,     v_12
+
+    Set the flag v_3c = 0x2, meaning this is a super password
+    HACK VmInstruction: SP=0x800b0984 PC=0x80151928 insn=0x1104de3c    DECODED: sw         0x2,     v_3c
+
+    I'm assuming this changes the graphics to show 'SUPER PASSWORD'
+    HACK VmInstruction: SP=0x800b0984 PC=0x8015192c insn=0x1fbe086e    DECODED: loadobj    SKIP,    28160
+    HACK VmInstruction: SP=0x800b0988 PC=0x80151930 insn=0x12e1fe1f    DECODED: setnz      TOS,     TOS
+    HACK VmInstruction: SP=0x800b0988 PC=0x80151934 insn=0x8227c001    DECODED: br.ez      TOS,     0, 1
+
+    HACK VmInstruction: SP=0x800b0984 PC=0x80151938 insn=0x90000823    DECODED: ins90      0x80062ee8, 8960
+    HACK VmEnter: RA=0x80024130 Nested=2
+    HACK VmInstruction: SP=0x800a3a54 PC=0x801524a8 insn=0x04823b7e    DECODED: eq         8960,    g_7e
+    HACK VmInstruction: SP=0x800a3a58 PC=0x801524ac insn=0x8227c001    DECODED: br.ez      TOS,     0, 1
+    HACK VmInstruction: SP=0x800a3a54 PC=0x801524b0 insn=0x1104de11    DECODED: sw         0x2,     v_11
+    HACK VmInstruction: SP=0x800a3a54 PC=0x801524b4 insn=0x0480eb7e    DECODED: eq         3584,    g_7e
+    HACK VmInstruction: SP=0x800a3a58 PC=0x801524b8 insn=0x8227c001    DECODED: br.ez      TOS,     0, 1
+    HACK VmInstruction: SP=0x800a3a54 PC=0x801524c0 insn=0x04821b7e    DECODED: eq         8448,    g_7e
+    HACK VmInstruction: SP=0x800a3a58 PC=0x801524c4 insn=0x8227c004    DECODED: br.ez      TOS,     0, 4
+    HACK VmInstruction: SP=0x800a3a54 PC=0x801524d8 insn=0x82894000    DECODED: ins82      2, 0, 0x25, 0
+    HACK VmExit: RA=0x80024130 Nested=2 Insns=8
+    HACK VmEnter: RA=0x80024130 Nested=2
+    HACK VmInstruction: SP=0x800a3088 PC=0x80152278 insn=0x04823b7e    DECODED: eq         8960,    g_7e
+    HACK VmInstruction: SP=0x800a308c PC=0x8015227c insn=0x8227c001    DECODED: br.ez      TOS,     0, 1
+    HACK VmInstruction: SP=0x800a3088 PC=0x80152280 insn=0x1104de11    DECODED: sw         0x2,     v_11
+    HACK VmInstruction: SP=0x800a3088 PC=0x80152284 insn=0x0480eb7e    DECODED: eq         3584,    g_7e
+    HACK VmInstruction: SP=0x800a308c PC=0x80152288 insn=0x8227c001    DECODED: br.ez      TOS,     0, 1
+    HACK VmInstruction: SP=0x800a3088 PC=0x80152290 insn=0x82894000    DECODED: ins82      2, 0, 0x25, 0
+    HACK VmExit: RA=0x80024130 Nested=2 Insns=6
+    HACK VmEnter: RA=0x80024130 Nested=2
+    HACK VmInstruction: SP=0x800a2e2c PC=0x80152278 insn=0x04823b7e    DECODED: eq         8960,    g_7e
+    HACK VmInstruction: SP=0x800a2e30 PC=0x8015227c insn=0x8227c001    DECODED: br.ez      TOS,     0, 1
+    HACK VmInstruction: SP=0x800a2e2c PC=0x80152280 insn=0x1104de11    DECODED: sw         0x2,     v_11
+    HACK VmInstruction: SP=0x800a2e2c PC=0x80152284 insn=0x0480eb7e    DECODED: eq         3584,    g_7e
+    HACK VmInstruction: SP=0x800a2e30 PC=0x80152288 insn=0x8227c001    DECODED: br.ez      TOS,     0, 1
+    HACK VmInstruction: SP=0x800a2e2c PC=0x80152290 insn=0x82894000    DECODED: ins82      2, 0, 0x25, 0
+    HACK VmExit: RA=0x80024130 Nested=2 Insns=6
+    HACK VmEnter: RA=0x80024130 Nested=2
+    HACK VmInstruction: SP=0x800a2bd0 PC=0x80152278 insn=0x04823b7e    DECODED: eq         8960,    g_7e
+    HACK VmInstruction: SP=0x800a2bd4 PC=0x8015227c insn=0x8227c001    DECODED: br.ez      TOS,     0, 1
+    HACK VmInstruction: SP=0x800a2bd0 PC=0x80152280 insn=0x1104de11    DECODED: sw         0x2,     v_11
+    HACK VmInstruction: SP=0x800a2bd0 PC=0x80152284 insn=0x0480eb7e    DECODED: eq         3584,    g_7e
+    HACK VmInstruction: SP=0x800a2bd4 PC=0x80152288 insn=0x8227c001    DECODED: br.ez      TOS,     0, 1
+    HACK VmInstruction: SP=0x800a2bd0 PC=0x80152290 insn=0x82894000    DECODED: ins82      2, 0, 0x25, 0
+    HACK VmExit: RA=0x80024130 Nested=2 Insns=6
+    HACK VmEnter: RA=0x80024130 Nested=2
+    HACK VmInstruction: SP=0x800a2974 PC=0x80152278 insn=0x04823b7e    DECODED: eq         8960,    g_7e
+    HACK VmInstruction: SP=0x800a2978 PC=0x8015227c insn=0x8227c001    DECODED: br.ez      TOS,     0, 1
+    HACK VmInstruction: SP=0x800a2974 PC=0x80152280 insn=0x1104de11    DECODED: sw         0x2,     v_11
+    HACK VmInstruction: SP=0x800a2974 PC=0x80152284 insn=0x0480eb7e    DECODED: eq         3584,    g_7e
+    HACK VmInstruction: SP=0x800a2978 PC=0x80152288 insn=0x8227c001    DECODED: br.ez      TOS,     0, 1
+    HACK VmInstruction: SP=0x800a2974 PC=0x80152290 insn=0x82894000    DECODED: ins82      2, 0, 0x25, 0
+    HACK VmExit: RA=0x80024130 Nested=2 Insns=6
+
+Dunno what these do. Maybe add a button graphic to the screen?
+HACK VmInstruction: SP=0x800b0984 PC=0x8015193c insn=0x1fbe086e    DECODED: loadobj    SKIP,    28160
+HACK VmInstruction: SP=0x800b0988 PC=0x80151940 insn=0x12e1fe1f    DECODED: setnz      TOS,     TOS
+HACK VmInstruction: SP=0x800b0988 PC=0x80151944 insn=0x8227c003    DECODED: br.ez      TOS,     0, 3
+
+HACK VmInstruction: SP=0x800b0984 PC=0x80151948 insn=0x16e3ae35    DECODED: load       v_3a,    v_35
+HACK VmInstruction: SP=0x800b098c PC=0x8015194c insn=0x16be0e3c    DECODED: load       SKIP,    v_3c
+HACK VmInstruction: SP=0x800b0990 PC=0x80151950 insn=0x8a339541    DECODED: ins8A      0x190,   0xd5b0da1
+
+Increment the count of button presses.
+HACK VmInstruction: SP=0x800b0984 PC=0x80151954 insn=0x00049e35    DECODED: add        0x1,     v_35
+HACK VmInstruction: SP=0x800b0988 PC=0x80151958 insn=0x11e1fe35    DECODED: sw         TOS,     v_35
+
+If entering a non-super password and 8 buttons are entered...
+HACK VmInstruction: SP=0x800b0984 PC=0x8015195c insn=0x04049e3c    DECODED: eq         0x1,     v_3c
+HACK VmInstruction: SP=0x800b0988 PC=0x80151960 insn=0x04008e35    DECODED: eq         0x8,     v_35
+HACK VmInstruction: SP=0x800b098c PC=0x80151964 insn=0x05e1fe1f    DECODED: land       TOS,     TOS
+
+... or if entering a super password and 0x18 == 24 buttons are entered....
+HACK VmInstruction: SP=0x800b0988 PC=0x80151968 insn=0x0404de3c    DECODED: eq         0x2,     v_3c
+HACK VmInstruction: SP=0x800b098c PC=0x8015196c insn=0x04017e35    DECODED: eq         0x18,    v_35
+HACK VmInstruction: SP=0x800b0990 PC=0x80151970 insn=0x05e1fe1f    DECODED: land       TOS,     TOS
+
+... then branch.
+HACK VmInstruction: SP=0x800b098c PC=0x80151974 insn=0x06e1fe1f    DECODED: lor        TOS,     TOS
+HACK VmInstruction: SP=0x800b0988 PC=0x80151978 insn=0x8227c005    DECODED: br.ez      TOS,     0, 5
+
+
+No idea.
+HACK VmInstruction: SP=0x800b0984 PC=0x8015197c insn=0x1fbe086e    DECODED: loadobj    SKIP,    28160
+HACK VmInstruction: SP=0x800b0988 PC=0x80151980 insn=0x8227c002    DECODED: br.ez      TOS,     0, 2
+HACK VmInstruction: SP=0x800b0984 PC=0x8015198c insn=0x8249402d    DECODED: ins82      1, 0, 0x25, 45
+HACK VmEnter: RA=0x8001d8dc Nested=2
+HACK VmInstruction: SP=0x800b0994 PC=0x80152108 insn=0x0fa02e1a    DECODED: insF       32,      v_1a
+HACK VmInstruction: SP=0x800b0998 PC=0x8015210c insn=0x12e1fe1f    DECODED: setnz      TOS,     TOS
+HACK VmInstruction: SP=0x800b0998 PC=0x80152110 insn=0x8227c00a    DECODED: br.ez      TOS,     0, 10
+HACK VmInstruction: SP=0x800b0994 PC=0x8015213c insn=0x82894000    DECODED: ins82      2, 0, 0x25, 0
+HACK VmExit: RA=0x8001d8dc Nested=2 Insns=4
+HACK VmInstruction: SP=0x800b0984 PC=0x80152040 insn=0x86099369    DECODED: ins86      0xff00ff, 0x190
+
+
+Here starts the algorithm?
+HACK VmInstruction: SP=0x800b0990 PC=0x801519b0 insn=0x11800e16    DECODED: sw         0,       v_16
+
+Branch elsewhere if *not* a super password?
+HACK VmInstruction: SP=0x800b0990 PC=0x801519b4 insn=0x82248102    DECODED: br.ez      v_12,    0, 258
+HACK VmInstruction: SP=0x800b0990 PC=0x801519b8 insn=0x16800800    DECODED: load       0,       0
+HACK VmInstruction: SP=0x800b0998 PC=0x801519bc insn=0x16800800    DECODED: load       0,       0
+HACK VmInstruction: SP=0x800b09a0 PC=0x801519c0 insn=0x16800800    DECODED: load       0,       0
+HACK VmInstruction: SP=0x800b09a8 PC=0x801519c4 insn=0x16800800    DECODED: load       0,       0
+HACK VmInstruction: SP=0x800b09b0 PC=0x801519c8 insn=0x16800800    DECODED: load       0,       0
+
+Discard bottom 4 bits (the first two triangles?)
+HACK VmInstruction: SP=0x800b09b8 PC=0x801519cc insn=0x1505de13    DECODED: sll        0xfffffffc, v_13
+HACK VmInstruction: SP=0x800b09bc PC=0x801519d0 insn=0x0707de1f    DECODED: band       0x3fffff, TOS
+HACK VmInstruction: SP=0x800b09bc PC=0x801519d4 insn=0x11e1fe13    DECODED: sw         TOS,     v_13
+
+Clear unnecessary bits from v_14, for good measure?
+HACK VmInstruction: SP=0x800b09b8 PC=0x801519d8 insn=0x0707de14    DECODED: band       0x3fffff, v_14
+HACK VmInstruction: SP=0x800b09bc PC=0x801519dc insn=0x11e1fe14    DECODED: sw         TOS,     v_14
+
+Extract first 11 bits to g_05?
+HACK VmInstruction: SP=0x800b09b8 PC=0x801519e0 insn=0x0707ee13    DECODED: band       0x7ff,   v_13
+HACK VmInstruction: SP=0x800b09bc PC=0x801519e4 insn=0x11e1fb05    DECODED: sw         TOS,     g_05
+
+Extract next 11 bits to g_06?
+HACK VmInstruction: SP=0x800b09b8 PC=0x801519e8 insn=0x15038e13    DECODED: sll        0xfffffff5, v_13
+HACK VmInstruction: SP=0x800b09bc PC=0x801519ec insn=0x0707ee1f    DECODED: band       0x7ff,   TOS
+HACK VmInstruction: SP=0x800b09bc PC=0x801519f0 insn=0x11e1fb06    DECODED: sw         TOS,     g_06
+
+Ditto to g_07?
+HACK VmInstruction: SP=0x800b09b8 PC=0x801519f4 insn=0x0707ee14    DECODED: band       0x7ff,   v_14
+HACK VmInstruction: SP=0x800b09bc PC=0x801519f8 insn=0x11e1fb07    DECODED: sw         TOS,     g_07
+
+Ditto to g_08?
+HACK VmInstruction: SP=0x800b09b8 PC=0x801519fc insn=0x15038e14    DECODED: sll        0xfffffff5, v_14
+HACK VmInstruction: SP=0x800b09bc PC=0x80151a00 insn=0x0707ee1f    DECODED: band       0x7ff,   TOS
+HACK VmInstruction: SP=0x800b09bc PC=0x80151a04 insn=0x11e1fb08    DECODED: sw         TOS,     g_08
+
+XOR g_05, g_07, g_08 to g_09
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151a08 insn=0x0eb08b07    DECODED: xor        g_08,    g_07
+HACK VmInstruction: SP=0x800b09bc PC=0x80151a0c insn=0x0eb05e1f    DECODED: xor        g_05,    TOS
+HACK VmInstruction: SP=0x800b09bc PC=0x80151a10 insn=0x11e1fb09    DECODED: sw         TOS,     g_09
+
+XOR g_05, g_06, g_08 to g_0a
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151a14 insn=0x0eb05b08    DECODED: xor        g_05,    g_08
+HACK VmInstruction: SP=0x800b09bc PC=0x80151a18 insn=0x0eb06e1f    DECODED: xor        g_06,    TOS
+HACK VmInstruction: SP=0x800b09bc PC=0x80151a1c insn=0x11e1fb0a    DECODED: sw         TOS,     g_0a
+
+XOR g_05, g_06, g_07 to g_0b
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151a20 insn=0x0eb06b05    DECODED: xor        g_06,    g_05
+HACK VmInstruction: SP=0x800b09bc PC=0x80151a24 insn=0x0eb07e1f    DECODED: xor        g_07,    TOS
+HACK VmInstruction: SP=0x800b09bc PC=0x80151a28 insn=0x11e1fb0b    DECODED: sw         TOS,     g_0b
+
+XOR g_06, g_07, g_08 to g_0c
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151a2c insn=0x0eb07b06    DECODED: xor        g_07,    g_06
+HACK VmInstruction: SP=0x800b09bc PC=0x80151a30 insn=0x0eb08e1f    DECODED: xor        g_08,    TOS
+HACK VmInstruction: SP=0x800b09bc PC=0x80151a34 insn=0x11e1fb0c    DECODED: sw         TOS,     g_0c
+
+XOR 0x18d to g_09
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151a38 insn=0x0eb09032    DECODED: xor        g_09,    0x18d
+HACK VmInstruction: SP=0x800b09bc PC=0x80151a3c insn=0x11e1fb09    DECODED: sw         TOS,     g_09
+
+XOR 0x24e to g_0a
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151a40 insn=0x0eb0a03a    DECODED: xor        g_0a,    0x24e
+HACK VmInstruction: SP=0x800b09bc PC=0x80151a44 insn=0x11e1fb0a    DECODED: sw         TOS,     g_0a
+
+XOR 0x3e4 to g_0b
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151a48 insn=0x0eb0b03b    DECODED: xor        g_0b,    0x3e4
+HACK VmInstruction: SP=0x800b09bc PC=0x80151a4c insn=0x11e1fb0b    DECODED: sw         TOS,     g_0b
+
+XOR 0x139 to g_0c
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151a50 insn=0x0eb0c03c    DECODED: xor        g_0c,    0x139
+HACK VmInstruction: SP=0x800b09bc PC=0x80151a54 insn=0x11e1fb0c    DECODED: sw         TOS,     g_0c
+
+Loop beginning.
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151a58 insn=0x1602f049    DECODED: load       0x40000000, 0x1
+HACK VmInstruction: SP=0x800b09c0 PC=0x80151a5c insn=0x11800e1f    DECODED: sw         0,       TOS
+
+Holy crap what a loop.
+HACK VmInstruction: SP=0x800b09c4 PC=0x80151a60 insn=0x02b0db0d    DECODED: mul        g_0d,    g_0d
+HACK VmInstruction: SP=0x800b09c8 PC=0x80151a64 insn=0x0d033e1f    DECODED: mod        0x7e5,   TOS
+HACK VmInstruction: SP=0x800b09c8 PC=0x80151a68 insn=0x11e1fb0d    DECODED: sw         TOS,     g_0d
+HACK VmInstruction: SP=0x800b09c4 PC=0x80151a6c insn=0x07b0e005    DECODED: band       g_0e,    0x5
+HACK VmInstruction: SP=0x800b09c8 PC=0x80151a70 insn=0x04800e1f    DECODED: eq         0,       TOS
+HACK VmInstruction: SP=0x800b09c8 PC=0x80151a74 insn=0x12e1fe1f    DECODED: setnz      TOS,     TOS
+HACK VmInstruction: SP=0x800b09c8 PC=0x80151a78 insn=0x8227c003    DECODED: br.ez      TOS,     0, 3
+    HACK VmInstruction: SP=0x800b09c4 PC=0x80151a7c insn=0x02b09b0d    DECODED: mul        g_09,    g_0d
+    HACK VmInstruction: SP=0x800b09c8 PC=0x80151a80 insn=0x0d033e1f    DECODED: mod        0x7e5,   TOS
+    HACK VmInstruction: SP=0x800b09c8 PC=0x80151a84 insn=0x11e1fb0d    DECODED: sw         TOS,     g_0d
+HACK VmInstruction: SP=0x800b09c4 PC=0x80151a88 insn=0x1501fb0e    DECODED: sll        0xffffffff, g_0e
+HACK VmInstruction: SP=0x800b09c8 PC=0x80151a8c insn=0x11e1fb0e    DECODED: sw         TOS,     g_0e
+HACK VmInstruction: SP=0x800b09c4 PC=0x80151a90 insn=0x00801b0f    DECODED: add        256,     g_0f
+HACK VmInstruction: SP=0x800b09c8 PC=0x80151a94 insn=0x11e1fb0f    DECODED: sw         TOS,     g_0f
+HACK VmInstruction: SP=0x800b09c4 PC=0x80151a98 insn=0x0981fb0f    DECODED: slt?       7936,    g_0f
+HACK VmInstruction: SP=0x800b09c8 PC=0x80151a9c insn=0x8217c3f0    DECODED: br.nz      TOS,     0, -16
+
+HACK VmInstruction: SP=0x800b09c4 PC=0x80151aa0 insn=0x11e1fbe0    DECODED: sw         TOS,     SKIP
+HACK VmInstruction: SP=0x800b09c0 PC=0x80151aa4 insn=0x11b0de25    DECODED: sw         g_0d,    v_25
+HACK VmInstruction: SP=0x800b09c0 PC=0x80151aa8 insn=0x82094800    DECODED: br.al      v_25,    2, 0
+
+Another loop beginning.
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151aac insn=0x11e25b05    DECODED: sw         v_25,    g_05
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151ab0 insn=0x1602f049    DECODED: load       0x40000000, 0x1
+HACK VmInstruction: SP=0x800b09c0 PC=0x80151ab4 insn=0x11800e1f    DECODED: sw         0,       TOS
+
+Another freaking huge loop. This time it mixes in g_0a.
+HACK VmInstruction: SP=0x800b09c4 PC=0x80151ab8 insn=0x02b0db0d    DECODED: mul        g_0d,    g_0d
+HACK VmInstruction: SP=0x800b09c8 PC=0x80151abc insn=0x0d033e1f    DECODED: mod        0x7e5,   TOS
+HACK VmInstruction: SP=0x800b09c8 PC=0x80151ac0 insn=0x11e1fb0d    DECODED: sw         TOS,     g_0d
+HACK VmInstruction: SP=0x800b09c4 PC=0x80151ac4 insn=0x07b0e005    DECODED: band       g_0e,    0x5
+HACK VmInstruction: SP=0x800b09c8 PC=0x80151ac8 insn=0x04800e1f    DECODED: eq         0,       TOS
+HACK VmInstruction: SP=0x800b09c8 PC=0x80151acc insn=0x12e1fe1f    DECODED: setnz      TOS,     TOS
+HACK VmInstruction: SP=0x800b09c8 PC=0x80151ad0 insn=0x8227c003    DECODED: br.ez      TOS,     0, 3
+    HACK VmInstruction: SP=0x800b09c4 PC=0x80151ad4 insn=0x02b0ab0d    DECODED: mul        g_0a,    g_0d
+    HACK VmInstruction: SP=0x800b09c8 PC=0x80151ad8 insn=0x0d033e1f    DECODED: mod        0x7e5,   TOS
+    HACK VmInstruction: SP=0x800b09c8 PC=0x80151adc insn=0x11e1fb0d    DECODED: sw         TOS,     g_0d
+HACK VmInstruction: SP=0x800b09c4 PC=0x80151ae0 insn=0x1501fb0e    DECODED: sll        0xffffffff, g_0e
+HACK VmInstruction: SP=0x800b09c8 PC=0x80151ae4 insn=0x11e1fb0e    DECODED: sw         TOS,     g_0e
+HACK VmInstruction: SP=0x800b09c4 PC=0x80151ae8 insn=0x00801b0f    DECODED: add        256,     g_0f
+HACK VmInstruction: SP=0x800b09c8 PC=0x80151aec insn=0x11e1fb0f    DECODED: sw         TOS,     g_0f
+HACK VmInstruction: SP=0x800b09c4 PC=0x80151af0 insn=0x0981fb0f    DECODED: slt?       7936,    g_0f
+HACK VmInstruction: SP=0x800b09c8 PC=0x80151af4 insn=0x8217c3f0    DECODED: br.nz      TOS,     0, -16
+
+Third loop.
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151b04 insn=0x11e25b06    DECODED: sw         v_25,    g_06
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151b08 insn=0x1602f049    DECODED: load       0x40000000, 0x1
+HACK VmInstruction: SP=0x800b09c0 PC=0x80151b0c insn=0x11800e1f    DECODED: sw         0,       TOS
+
+Booring. g_0b.
+HACK VmInstruction: SP=0x800b09c4 PC=0x80151b10 insn=0x02b0db0d    DECODED: mul        g_0d,    g_0d
+HACK VmInstruction: SP=0x800b09c8 PC=0x80151b14 insn=0x0d033e1f    DECODED: mod        0x7e5,   TOS
+HACK VmInstruction: SP=0x800b09c8 PC=0x80151b18 insn=0x11e1fb0d    DECODED: sw         TOS,     g_0d
+HACK VmInstruction: SP=0x800b09c4 PC=0x80151b1c insn=0x07b0e005    DECODED: band       g_0e,    0x5
+HACK VmInstruction: SP=0x800b09c8 PC=0x80151b20 insn=0x04800e1f    DECODED: eq         0,       TOS
+HACK VmInstruction: SP=0x800b09c8 PC=0x80151b24 insn=0x12e1fe1f    DECODED: setnz      TOS,     TOS
+HACK VmInstruction: SP=0x800b09c8 PC=0x80151b28 insn=0x8227c003    DECODED: br.ez      TOS,     0, 3
+    HACK VmInstruction: SP=0x800b09c4 PC=0x80151b2c insn=0x02b0bb0d    DECODED: mul        g_0b,    g_0d
+    HACK VmInstruction: SP=0x800b09c8 PC=0x80151b30 insn=0x0d033e1f    DECODED: mod        0x7e5,   TOS
+    HACK VmInstruction: SP=0x800b09c8 PC=0x80151b34 insn=0x11e1fb0d    DECODED: sw         TOS,     g_0d
+HACK VmInstruction: SP=0x800b09c4 PC=0x80151b38 insn=0x1501fb0e    DECODED: sll        0xffffffff, g_0e
+HACK VmInstruction: SP=0x800b09c8 PC=0x80151b3c insn=0x11e1fb0e    DECODED: sw         TOS,     g_0e
+HACK VmInstruction: SP=0x800b09c4 PC=0x80151b40 insn=0x00801b0f    DECODED: add        256,     g_0f
+HACK VmInstruction: SP=0x800b09c8 PC=0x80151b44 insn=0x11e1fb0f    DECODED: sw         TOS,     g_0f
+HACK VmInstruction: SP=0x800b09c4 PC=0x80151b48 insn=0x0981fb0f    DECODED: slt?       7936,    g_0f
+HACK VmInstruction: SP=0x800b09c8 PC=0x80151b4c insn=0x8217c3f0    DECODED: br.nz      TOS,     0, -16
+
+HACK VmInstruction: SP=0x800b09c4 PC=0x80151b50 insn=0x11e1fbe0    DECODED: sw         TOS,     SKIP
+HACK VmInstruction: SP=0x800b09c0 PC=0x80151b54 insn=0x11b0de25    DECODED: sw         g_0d,    v_25
+HACK VmInstruction: SP=0x800b09c0 PC=0x80151b58 insn=0x82094800    DECODED: br.al      v_25,    2, 0
+
+Guess.
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151b5c insn=0x11e25b07    DECODED: sw         v_25,    g_07
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151b60 insn=0x1602f049    DECODED: load       0x40000000, 0x1
+HACK VmInstruction: SP=0x800b09c0 PC=0x80151b64 insn=0x11800e1f    DECODED: sw         0,       TOS
+
+No shit. g_0c.
+HACK VmInstruction: SP=0x800b09c4 PC=0x80151b68 insn=0x02b0db0d    DECODED: mul        g_0d,    g_0d
+HACK VmInstruction: SP=0x800b09c8 PC=0x80151b6c insn=0x0d033e1f    DECODED: mod        0x7e5,   TOS
+HACK VmInstruction: SP=0x800b09c8 PC=0x80151b70 insn=0x11e1fb0d    DECODED: sw         TOS,     g_0d
+HACK VmInstruction: SP=0x800b09c4 PC=0x80151b74 insn=0x07b0e005    DECODED: band       g_0e,    0x5
+HACK VmInstruction: SP=0x800b09c8 PC=0x80151b78 insn=0x04800e1f    DECODED: eq         0,       TOS
+HACK VmInstruction: SP=0x800b09c8 PC=0x80151b7c insn=0x12e1fe1f    DECODED: setnz      TOS,     TOS
+HACK VmInstruction: SP=0x800b09c8 PC=0x80151b80 insn=0x8227c003    DECODED: br.ez      TOS,     0, 3
+    HACK VmInstruction: SP=0x800b09c4 PC=0x80151b84 insn=0x02b0cb0d    DECODED: mul        g_0c,    g_0d
+    HACK VmInstruction: SP=0x800b09c8 PC=0x80151b88 insn=0x0d033e1f    DECODED: mod        0x7e5,   TOS
+    HACK VmInstruction: SP=0x800b09c8 PC=0x80151b8c insn=0x11e1fb0d    DECODED: sw         TOS,     g_0d
+HACK VmInstruction: SP=0x800b09c4 PC=0x80151b90 insn=0x1501fb0e    DECODED: sll        0xffffffff, g_0e
+HACK VmInstruction: SP=0x800b09c8 PC=0x80151b94 insn=0x11e1fb0e    DECODED: sw         TOS,     g_0e
+HACK VmInstruction: SP=0x800b09c4 PC=0x80151b98 insn=0x00801b0f    DECODED: add        256,     g_0f
+HACK VmInstruction: SP=0x800b09c8 PC=0x80151b9c insn=0x11e1fb0f    DECODED: sw         TOS,     g_0f
+HACK VmInstruction: SP=0x800b09c4 PC=0x80151ba0 insn=0x0981fb0f    DECODED: slt?       7936,    g_0f
+HACK VmInstruction: SP=0x800b09c8 PC=0x80151ba4 insn=0x8217c3f0    DECODED: br.nz      TOS,     0, -16
+
+HACK VmInstruction: SP=0x800b09c4 PC=0x80151ba8 insn=0x11e1fbe0    DECODED: sw         TOS,     SKIP
+HACK VmInstruction: SP=0x800b09c0 PC=0x80151bac insn=0x11b0de25    DECODED: sw         g_0d,    v_25
+HACK VmInstruction: SP=0x800b09c0 PC=0x80151bb0 insn=0x82094800    DECODED: br.al      v_25,    2, 0
+
+Lot of shit.
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151bb4 insn=0x11e25b08    DECODED: sw         v_25,    g_08
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151bb8 insn=0x0b047b05    DECODED: sle?       0x1ff,   g_05
+HACK VmInstruction: SP=0x800b09bc PC=0x80151bbc insn=0x0b047b06    DECODED: sle?       0x1ff,   g_06
+HACK VmInstruction: SP=0x800b09c0 PC=0x80151bc0 insn=0x0b047b07    DECODED: sle?       0x1ff,   g_07
+HACK VmInstruction: SP=0x800b09c4 PC=0x80151bc4 insn=0x0b047b08    DECODED: sle?       0x1ff,   g_08
+HACK VmInstruction: SP=0x800b09c8 PC=0x80151bc8 insn=0x06e1fe1f    DECODED: lor        TOS,     TOS
+HACK VmInstruction: SP=0x800b09c4 PC=0x80151bcc insn=0x06e1fe1f    DECODED: lor        TOS,     TOS
+HACK VmInstruction: SP=0x800b09c0 PC=0x80151bd0 insn=0x06e1fe1f    DECODED: lor        TOS,     TOS
+HACK VmInstruction: SP=0x800b09bc PC=0x80151bd4 insn=0x8227c001    DECODED: br.ez      TOS,     0, 1
+
+**** Here is the magical if! ***
+if v_16 is nonzero, the algorithm fails!
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151bd8 insn=0x11801e16    DECODED: sw         256,     v_16
+
+/* Here is the level number. */
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151bdc insn=0x0701eb05    DECODED: band       0x1f,    g_05
+HACK VmInstruction: SP=0x800b09bc PC=0x80151be0 insn=0x11e1fe41    DECODED: sw         TOS,     v_41
+
+/* Gem bitmask? */
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151be4 insn=0x11800e42    DECODED: sw         0,       v_42
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151be8 insn=0x11800e43    DECODED: sw         0,       v_43
+
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151bec insn=0x07a08b05    DECODED: band       128,     g_05
+HACK VmInstruction: SP=0x800b09bc PC=0x80151bf0 insn=0x8227c002    DECODED: br.ez      TOS,     0, 2
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151bf4 insn=0x0804de42    DECODED: bor        0x2,     v_42
+HACK VmInstruction: SP=0x800b09bc PC=0x80151bf8 insn=0x11e1fe42    DECODED: sw         TOS,     v_42
+
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151bfc insn=0x07801b05    DECODED: band       256,     g_05
+HACK VmInstruction: SP=0x800b09bc PC=0x80151c00 insn=0x8227c002    DECODED: br.ez      TOS,     0, 2
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151c04 insn=0x08004e42    DECODED: bor        0x4,     v_42
+HACK VmInstruction: SP=0x800b09bc PC=0x80151c08 insn=0x11e1fe42    DECODED: sw         TOS,     v_42
+
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151c0c insn=0x07049b06    DECODED: band       0x1,     g_06
+HACK VmInstruction: SP=0x800b09bc PC=0x80151c10 insn=0x8227c002    DECODED: br.ez      TOS,     0, 2
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151c14 insn=0x08008e42    DECODED: bor        0x8,     v_42
+HACK VmInstruction: SP=0x800b09bc PC=0x80151c18 insn=0x11e1fe42    DECODED: sw         TOS,     v_42
+
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151c1c insn=0x0704db06    DECODED: band       0x2,     g_06
+HACK VmInstruction: SP=0x800b09bc PC=0x80151c20 insn=0x8227c002    DECODED: br.ez      TOS,     0, 2
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151c24 insn=0x08a01e42    DECODED: bor        16,      v_42
+HACK VmInstruction: SP=0x800b09bc PC=0x80151c28 insn=0x11e1fe42    DECODED: sw         TOS,     v_42
+
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151c2c insn=0x07004b06    DECODED: band       0x4,     g_06
+HACK VmInstruction: SP=0x800b09bc PC=0x80151c30 insn=0x8227c002    DECODED: br.ez      TOS,     0, 2
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151c34 insn=0x08a02e42    DECODED: bor        32,      v_42
+HACK VmInstruction: SP=0x800b09bc PC=0x80151c38 insn=0x11e1fe42    DECODED: sw         TOS,     v_42
+
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151c3c insn=0x07008b06    DECODED: band       0x8,     g_06
+HACK VmInstruction: SP=0x800b09bc PC=0x80151c40 insn=0x8227c002    DECODED: br.ez      TOS,     0, 2
+
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151c4c insn=0x07a01b06    DECODED: band       16,      g_06
+HACK VmInstruction: SP=0x800b09bc PC=0x80151c50 insn=0x8227c002    DECODED: br.ez      TOS,     0, 2
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151c54 insn=0x08801e42    DECODED: bor        256,     v_42
+HACK VmInstruction: SP=0x800b09bc PC=0x80151c58 insn=0x11e1fe42    DECODED: sw         TOS,     v_42
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151c5c insn=0x07a02b06    DECODED: band       32,      g_06
+HACK VmInstruction: SP=0x800b09bc PC=0x80151c60 insn=0x8227c002    DECODED: br.ez      TOS,     0, 2
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151c6c insn=0x07a04b06    DECODED: band       64,      g_06
+HACK VmInstruction: SP=0x800b09bc PC=0x80151c70 insn=0x8227c002    DECODED: br.ez      TOS,     0, 2
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151c7c insn=0x07a08b06    DECODED: band       128,     g_06
+HACK VmInstruction: SP=0x800b09bc PC=0x80151c80 insn=0x8227c002    DECODED: br.ez      TOS,     0, 2
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151c84 insn=0x08810e42    DECODED: bor        4096,    v_42
+HACK VmInstruction: SP=0x800b09bc PC=0x80151c88 insn=0x11e1fe42    DECODED: sw         TOS,     v_42
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151c8c insn=0x07801b06    DECODED: band       256,     g_06
+HACK VmInstruction: SP=0x800b09bc PC=0x80151c90 insn=0x8227c002    DECODED: br.ez      TOS,     0, 2
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151c9c insn=0x07049b07    DECODED: band       0x1,     g_07
+HACK VmInstruction: SP=0x800b09bc PC=0x80151ca0 insn=0x8227c002    DECODED: br.ez      TOS,     0, 2
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151cac insn=0x0704db07    DECODED: band       0x2,     g_07
+HACK VmInstruction: SP=0x800b09bc PC=0x80151cb0 insn=0x8227c002    DECODED: br.ez      TOS,     0, 2
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151cbc insn=0x07004b07    DECODED: band       0x4,     g_07
+HACK VmInstruction: SP=0x800b09bc PC=0x80151cc0 insn=0x8227c002    DECODED: br.ez      TOS,     0, 2
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151ccc insn=0x07008b07    DECODED: band       0x8,     g_07
+HACK VmInstruction: SP=0x800b09bc PC=0x80151cd0 insn=0x8227c002    DECODED: br.ez      TOS,     0, 2
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151cd4 insn=0x08024e42    DECODED: bor        0x80000, v_42
+HACK VmInstruction: SP=0x800b09bc PC=0x80151cd8 insn=0x11e1fe42    DECODED: sw         TOS,     v_42
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151cdc insn=0x07a01b07    DECODED: band       16,      g_07
+HACK VmInstruction: SP=0x800b09bc PC=0x80151ce0 insn=0x8227c002    DECODED: br.ez      TOS,     0, 2
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151ce4 insn=0x08025e42    DECODED: bor        0x40000, v_42
+HACK VmInstruction: SP=0x800b09bc PC=0x80151ce8 insn=0x11e1fe42    DECODED: sw         TOS,     v_42
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151cec insn=0x07a02b07    DECODED: band       32,      g_07
+HACK VmInstruction: SP=0x800b09bc PC=0x80151cf0 insn=0x8227c002    DECODED: br.ez      TOS,     0, 2
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151cfc insn=0x07a04b07    DECODED: band       64,      g_07
+HACK VmInstruction: SP=0x800b09bc PC=0x80151d00 insn=0x8227c002    DECODED: br.ez      TOS,     0, 2
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151d04 insn=0x08027e42    DECODED: bor        0x200000, v_42
+HACK VmInstruction: SP=0x800b09bc PC=0x80151d08 insn=0x11e1fe42    DECODED: sw         TOS,     v_42
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151d0c insn=0x07a08b07    DECODED: band       128,     g_07
+HACK VmInstruction: SP=0x800b09bc PC=0x80151d10 insn=0x8227c002    DECODED: br.ez      TOS,     0, 2
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151d14 insn=0x08840e42    DECODED: bor        16384,   v_42
+HACK VmInstruction: SP=0x800b09bc PC=0x80151d18 insn=0x11e1fe42    DECODED: sw         TOS,     v_42
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151d1c insn=0x07801b07    DECODED: band       256,     g_07
+HACK VmInstruction: SP=0x800b09bc PC=0x80151d20 insn=0x8227c002    DECODED: br.ez      TOS,     0, 2
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151d24 insn=0x08029e42    DECODED: bor        0x800000, v_42
+HACK VmInstruction: SP=0x800b09bc PC=0x80151d28 insn=0x11e1fe42    DECODED: sw         TOS,     v_42
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151d2c insn=0x07049b08    DECODED: band       0x1,     g_08
+HACK VmInstruction: SP=0x800b09bc PC=0x80151d30 insn=0x8227c002    DECODED: br.ez      TOS,     0, 2
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151d3c insn=0x0704db08    DECODED: band       0x2,     g_08
+HACK VmInstruction: SP=0x800b09bc PC=0x80151d40 insn=0x8227c002    DECODED: br.ez      TOS,     0, 2
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151d4c insn=0x07004b08    DECODED: band       0x4,     g_08
+HACK VmInstruction: SP=0x800b09bc PC=0x80151d50 insn=0x8227c002    DECODED: br.ez      TOS,     0, 2
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151d5c insn=0x07008b08    DECODED: band       0x8,     g_08
+HACK VmInstruction: SP=0x800b09bc PC=0x80151d60 insn=0x8227c002    DECODED: br.ez      TOS,     0, 2
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151d64 insn=0x0802ee42    DECODED: bor        0x8000000, v_42
+HACK VmInstruction: SP=0x800b09bc PC=0x80151d68 insn=0x11e1fe42    DECODED: sw         TOS,     v_42
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151d6c insn=0x07a01b08    DECODED: band       16,      g_08
+HACK VmInstruction: SP=0x800b09bc PC=0x80151d70 insn=0x8227c002    DECODED: br.ez      TOS,     0, 2
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151d74 insn=0x08801e43    DECODED: bor        256,     v_43
+HACK VmInstruction: SP=0x800b09bc PC=0x80151d78 insn=0x11e1fe43    DECODED: sw         TOS,     v_43
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151d7c insn=0x07a02b08    DECODED: band       32,      g_08
+HACK VmInstruction: SP=0x800b09bc PC=0x80151d80 insn=0x8227c002    DECODED: br.ez      TOS,     0, 2
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151d84 insn=0x08025e43    DECODED: bor        0x40000, v_43
+HACK VmInstruction: SP=0x800b09bc PC=0x80151d88 insn=0x11e1fe43    DECODED: sw         TOS,     v_43
+
+**** Another check for pass validity!
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151d8c insn=0x0b07fb08    DECODED: sle?       0x3f,    g_08
+HACK VmInstruction: SP=0x800b09bc PC=0x80151d90 insn=0x8227c001    DECODED: br.ez      TOS,     0, 1
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151d94 insn=0x11801e16    DECODED: sw         256,     v_16
+
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151d98 insn=0x07a02b05    DECODED: band       32,      g_05
+HACK VmInstruction: SP=0x800b09bc PC=0x80151d9c insn=0x8227c002    DECODED: br.ez      TOS,     0, 2
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151da0 insn=0x08804e43    DECODED: bor        1024,    v_43
+HACK VmInstruction: SP=0x800b09bc PC=0x80151da4 insn=0x11e1fe43    DECODED: sw         TOS,     v_43
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151da8 insn=0x07a04b05    DECODED: band       64,      g_05
+HACK VmInstruction: SP=0x800b09bc PC=0x80151dac insn=0x8227c002    DECODED: br.ez      TOS,     0, 2
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151db0 insn=0x08026e43    DECODED: bor        0x100000, v_43
+HACK VmInstruction: SP=0x800b09bc PC=0x80151db4 insn=0x11e1fe43    DECODED: sw         TOS,     v_43
+HACK VmInstruction: SP=0x800b09b8 PC=0x80151db8 insn=0x82096800    DECODED: br.al      v_25,    10, 0
+HACK VmInstruction: SP=0x800b0990 PC=0x80151dbc insn=0x8209409a    DECODED: br.al      v_25,    0, 154
+HACK VmInstruction: SP=0x800b0990 PC=0x80152028 insn=0x09049e41    DECODED: slt?       0x1,     v_41
+HACK VmInstruction: SP=0x800b0994 PC=0x8015202c insn=0x0b01ee41    DECODED: sle?       0x1f,    v_41
+HACK VmInstruction: SP=0x800b0998 PC=0x80152030 insn=0x06e1fe1f    DECODED: lor        TOS,     TOS
+HACK VmInstruction: SP=0x800b0994 PC=0x80152034 insn=0x8227c001    DECODED: br.ez      TOS,     0, 1
+
+HACK VmInstruction: SP=0x800b0990 PC=0x8018203c insn=0x82894000    DECODED: ins82      2, 0, 0x25, 0
+HACK VmInstruction: SP=0x800b0984 PC=0x80182044 insn=0x8255802e    DECODED: ins82      1, 1, 0x16, 46
